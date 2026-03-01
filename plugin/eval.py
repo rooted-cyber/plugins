@@ -11,7 +11,7 @@ async def cpp_handler(okbclient, message):
         return await message.reply("❌ You are not allowed to use this command.")
 
     code = message.text.split(maxsplit=1)
-
+    await smart_reply("running")
     if len(code) < 2:
         return await message.reply("Usage: `.cpp print('hello')`")
 
