@@ -4,7 +4,7 @@ import asyncio
 
 URL = "https://gist.githubusercontent.com/rooted-cyber/509190613bafda0a30539e3e10932877/raw/cpp"
 
-@astra_command(name="cppcurl")
+@astra_command(name="cppc")
 async def cppcurl_handler(client, message):
 
     if message.sender_id not in SUDO_USERS:
