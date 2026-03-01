@@ -2,7 +2,7 @@ from . import *
 import asyncio
 import os
 
-@astra_command(name="cppcurl")
+@astra_command(name="cpp")
 async def cppcurl_cmd(client, message):
     msg = await message.reply("🔄 Downloading & running script...")
 
