@@ -37,8 +37,11 @@ async def cppcurl_cmd(client, message):
         await msg.edit(f"✅ Update Completed:\n```{combined}```")
 
         # 🔥 Auto Restart After Success
-        await asyncio.sleep(2)
+        await asyncio.sleep(0.5)
+        await message.reply("restarting.....")
         os.execv(sys.executable, [sys.executable] + sys.argv)
+        await asyncio.sleep(0.5)
+        await message.reply("hu")
 
     except Exception as e:
         await msg.edit(f"❌ Exception:\n`{e}`")
