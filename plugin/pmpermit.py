@@ -14,7 +14,7 @@ from . import *
     name="pmpermit",
     description="Toggle PM Protection or permit/deny users",
     category="Owner",
-    aliases=[],
+    aliases=["pm"],
     usage="<on|off|approve|deny> [user_id] (e.g. .pmpermit approve @123)",
     owner_only=True
 )
