@@ -6,19 +6,15 @@ import traceback
 @astra_command(name="eval")
 async def eval_cmd(client, message):
 
-    # SUDO check
-    if message.sender_id not in SUDO_USERS:
-        return await message.reply("❌ Not Allowed")
+    # Only allow yourself (self bot)
+    if not message.from_user.is_self:
+        return
 
-    # Get code
-    parts = message.text.split(" ", 1)
-
-    if len(parts) < 2:
+    if len(message.text.split()) < 2:
         return await message.reply("Usage: .eval print('hi')")
 
-    code = parts[1]
+    code = message.text.split(" ", 1)[1]
 
-    # Capture output
     old_stdout = sys.stdout
     old_stderr = sys.stderr
 
@@ -29,7 +25,6 @@ async def eval_cmd(client, message):
         exec(code)
         output = sys.stdout.getvalue()
         error = sys.stderr.getvalue()
-
         result = output if output else error
 
     except Exception:
