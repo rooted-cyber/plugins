@@ -1,33 +1,45 @@
 from . import *
-import traceback
 import sys
 import io
+import traceback
 
 @astra_command(name="eval")
 async def eval_cmd(client, message):
 
+    # SUDO check
     if message.sender_id not in SUDO_USERS:
         return await message.reply("❌ Not Allowed")
 
-    cmd = message.text.split(" ", 1)
+    # Get code
+    parts = message.text.split(" ", 1)
 
-    if len(cmd) < 2:
+    if len(parts) < 2:
         return await message.reply("Usage: .eval print('hi')")
 
-    code = cmd[1]
+    code = parts[1]
 
+    # Capture output
     old_stdout = sys.stdout
+    old_stderr = sys.stderr
+
     sys.stdout = io.StringIO()
+    sys.stderr = io.StringIO()
 
     try:
         exec(code)
         output = sys.stdout.getvalue()
+        error = sys.stderr.getvalue()
+
+        result = output if output else error
+
     except Exception:
-        output = traceback.format_exc()
+        result = traceback.format_exc()
 
-    sys.stdout = old_stdout
+    finally:
+        sys.stdout = old_stdout
+        sys.stderr = old_stderr
 
-    if not output:
-        output = "✅ Done"
+    if not result:
+        result = "✅ Done"
 
-    await message.reply(f"```\n{output}\n```")
+    await message.reply(f"```\n{result}\n```")
