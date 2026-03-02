@@ -56,4 +56,3 @@ async def ai_handler(client: Client, message: Message):
     except Exception as e:
         await smart_reply(message, f" ❌ Error: {str(e)}")
         await report_error(client, e, context='Command ai failed')
-r
