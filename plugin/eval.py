@@ -2,7 +2,6 @@ from . import *
 import sys
 import io
 import traceback
-import asyncio
 
 @astra_command(name="eval")
 async def eval_cmd(client, message):
@@ -16,14 +15,19 @@ async def eval_cmd(client, message):
     old_stdout = sys.stdout
     sys.stdout = io.StringIO()
 
+    env = {
+        "client": client,
+        "message": message,
+    }
+
     try:
-        # Wrap code inside async function
         exec(
-            f"async def __eval_func(client, message):\n"
-            + "\n".join(f"    {line}" for line in code.split("\n"))
+            "async def __eval_func():\n"
+            + "\n".join(f"    {line}" for line in code.split("\n")),
+            env
         )
 
-        result = await locals()["__eval_func"](client, message)
+        result = await env["__eval_func"]()
         output = sys.stdout.getvalue()
 
         if result:
