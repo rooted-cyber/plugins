@@ -18,6 +18,7 @@ async def eval_cmd(client, message):
     env = {
         "client": client,
         "message": message,
+        "event" : message,
     }
 
     try:
@@ -40,6 +41,6 @@ async def eval_cmd(client, message):
         sys.stdout = old_stdout
 
     if not output:
-        output = "✅ Done"
+      y  output = "✅ Done"
 
     await message.reply(f"```\n{output}\n```")
