@@ -42,10 +42,10 @@ async def eval_cmd(client, message):
         if error:
             parts.append(error)
 
-        if result is not None:
+        if result:
             parts.append(str(result))
 
-        if not parts:
+        if parts:
             parts.append("Success ✅")
 
         final_output = "\n".join(parts)
