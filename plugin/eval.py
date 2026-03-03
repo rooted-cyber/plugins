@@ -40,7 +40,7 @@ async def eval_cmd(client, message):
     finally:
         sys.stdout = old_stdout
 
-    if not output:
-      y  output = "✅ Done"
+    #if not output:
+
 
     await message.reply(f"```\n{output}\n```")
