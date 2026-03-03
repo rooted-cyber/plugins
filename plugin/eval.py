@@ -2,47 +2,51 @@ from . import *
 import sys
 import io
 import traceback
+import asyncio
 
 @astra_command(name="eval")
 async def eval_cmd(client, message):
 
-    parts = message.text.split(" ", 1)
-    if len(parts) < 2:
+    if not message.from_user.is_self:
+        return
+
+    if len(message.text.split(None, 1)) < 2:
         return await message.reply("Usage: .eval print('hi')")
 
-    code = parts[1]
+    code = message.text.split(None, 1)[1]
 
     old_stdout = sys.stdout
-    sys.stdout = io.StringIO()
+    old_stderr = sys.stderr
+    redirected_output = sys.stdout = io.StringIO()
+    redirected_error = sys.stderr = io.StringIO()
 
     env = {
-    "client": client,
-    "message": message,
-    "m": message,
-    "c": client,
-    "__name__": "__main__",   # 👈 ye compulsory hai
-}
+        "client": client,
+        "message": message,
+        "m": message,
+        "c": client,
+        "asyncio": asyncio,
+        "__name__": "__main__",
+    }
 
     try:
         exec(
             "async def __eval_func():\n"
             + "\n".join(f"    {line}" for line in code.split("\n")),
-            env
+            env,
         )
 
         result = await env["__eval_func"]()
-        output = sys.stdout.getvalue()
 
-        if result:
-            output += str(result)
+        output = redirected_output.getvalue()
+        error = redirected_error.getvalue()
+
+        final_output = output or error or str(result) or "Success"
 
     except Exception:
-        output = traceback.format_exc()
+        final_output = traceback.format_exc()
 
-    finally:
-        sys.stdout = old_stdout
+    sys.stdout = old_stdout
+    sys.stderr = old_stderr
 
-    #if not output:
-
-
-    await message.reply(f"```\n{output}\n```")
+    await message.reply(f"```\n{final_output}\n```")
