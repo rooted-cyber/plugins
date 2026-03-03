@@ -7,9 +7,6 @@ import asyncio
 @astra_command(name="eval")
 async def eval_cmd(client, message):
 
-    if not message.from_user.is_self:
-        return
-
     if len(message.text.split(None, 1)) < 2:
         return await message.reply("Usage: .eval print('hi')")
 
@@ -17,8 +14,8 @@ async def eval_cmd(client, message):
 
     old_stdout = sys.stdout
     old_stderr = sys.stderr
-    redirected_output = sys.stdout = io.StringIO()
-    redirected_error = sys.stderr = io.StringIO()
+    sys.stdout = io.StringIO()
+    sys.stderr = io.StringIO()
 
     env = {
         "client": client,
@@ -38,8 +35,8 @@ async def eval_cmd(client, message):
 
         result = await env["__eval_func"]()
 
-        output = redirected_output.getvalue()
-        error = redirected_error.getvalue()
+        output = sys.stdout.getvalue()
+        error = sys.stderr.getvalue()
 
         final_output = output or error or str(result) or "Success"
 
@@ -49,4 +46,7 @@ async def eval_cmd(client, message):
     sys.stdout = old_stdout
     sys.stderr = old_stderr
 
-    await message.reply(f"```\n{final_output}\n```")
+    try:
+        await message.reply(f"```\n{final_output}\n```")
+    except:
+        print(final_output)
