@@ -5,9 +5,6 @@ import traceback
 
 @astra_command(name="eval")
 async def eval_cmd(client, message):
-    #ifi not message.from_user.is_self:
-        #return
-
     cmd = message.text.split(" ", 1)
     if len(cmd) < 2:
         return await message.reply("Usage: .eval <code>")
@@ -37,14 +34,21 @@ async def eval_cmd(client, message):
         output = sys.stdout.getvalue()
         error = sys.stderr.getvalue()
 
+        parts = []
+
         if output:
-            final_output = output
-        elif error:
-            final_output = error
-        elif result is not None:
-            final_output = str(result)
-        else:
-            final_output = "Success ✅"
+            parts.append(output)
+
+        if error:
+            parts.append(error)
+
+        if result is not None:
+            parts.append(str(result))
+
+        if not parts:
+            parts.append("Success ✅")
+
+        final_output = "\n".join(parts)
 
     except Exception:
         final_output = traceback.format_exc()
