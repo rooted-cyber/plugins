@@ -5,8 +5,8 @@ import traceback
 
 @astra_command(name="eval")
 async def eval_cmd(client, message):
-    if not message.from_user.is_self:
-        return
+    #ifi not message.from_user.is_self:
+        #return
 
     cmd = message.text.split(" ", 1)
     if len(cmd) < 2:
