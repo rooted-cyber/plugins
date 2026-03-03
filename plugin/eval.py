@@ -16,10 +16,12 @@ async def eval_cmd(client, message):
     sys.stdout = io.StringIO()
 
     env = {
-        "client": client,
-        "message": message,
-        "event" : message,
-    }
+    "client": client,
+    "message": message,
+    "m": message,
+    "c": client,
+    "__name__": "__main__",   # 👈 ye compulsory hai
+}
 
     try:
         exec(
