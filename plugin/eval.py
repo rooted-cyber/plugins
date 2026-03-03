@@ -3,6 +3,7 @@ import sys
 import io
 import traceback
 import asyncio
+from .. import astra_command
 
 @astra_command(name="eval")
 async def eval_cmd(client, message):
