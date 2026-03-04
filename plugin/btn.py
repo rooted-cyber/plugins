@@ -50,8 +50,8 @@ startBot()
         f.write(code)
 
     # Install dependency
-    os.system("cd whtsp_bot && npm init -y")
-    os.system("cd whtsp_bot && npm install @whiskeysockets/baileys")
+    #os.system("cd whtsp_bot && npm init -y")
+    #.system("cd whtsp_bot && npm install @whiskeysockets/baileys")
 
     await message.reply("🚀 Starting WhatsApp bot... Scan QR in terminal.")
 
