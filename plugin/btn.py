@@ -13,8 +13,7 @@ async def btn_handler(client, message):
     )
 
     await message.reply(
-        "🔥 Astra Button Test",
-        reply_markup=buttons
+        "🔥 Astra Button Test"
     )
 
 
