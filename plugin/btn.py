@@ -1,21 +1,23 @@
-from telethon import Button, events
-from . import *
-import os
+from pyrogram import Client, filters
+from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
+from . import astra_command
 
-@astra_command(name="btn")
+@astra_command("btn")
 async def btn_handler(client, message):
 
-    # File create using with open
-    code = """
-from telethon import Button
+    buttons = InlineKeyboardMarkup(
+        [
+            [InlineKeyboardButton("🌐 Google", url="https://google.com")],
+            [InlineKeyboardButton("⚡ Click Me", callback_data="astra_btn")]
+        ]
+    )
 
-buttons = [
-    [Button.url("🌐 Google", "https://google.com")],
-    [Button.inline("⚡ Click Me", b"astra_click")]
-]
-"""
+    await message.reply_text(
+        "🔥 Astra Button Test",
+        reply_markup=buttons
+    )
 
-    with open("buttons_data.py", "w") as f:
-        f.write(code)
 
-    os.system("python but*")
+@Client.on_callback_query(filters.regex("astra_btn"))
+async def callback_handler(client, callback_query):
+    await callback_query.answer("Button Clicked ✅", show_alert=True)
