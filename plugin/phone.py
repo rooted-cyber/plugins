@@ -2,6 +2,7 @@ from . import *
 import asyncio
 import os
 import sys
+import re
 
 @astra_command(name="phone")
 async def phone_cmd(client, message):
@@ -15,6 +16,8 @@ async def phone_cmd(client, message):
     )
 
     try:
+        ansi_escape = re.compile(r'\x1B\[[0-?]*[ -/]*[@-~]')
+        output = ansi_escape.sub('', output)
         process = await asyncio.create_subprocess_shell(
             cmd,
             stdout=asyncio.subprocess.PIPE,
