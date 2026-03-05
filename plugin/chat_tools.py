@@ -1,5 +1,9 @@
 """Chat and contact tools using the new Astra v3 API."""
-
+async def edit_or_reply(message, text):
+    try:
+        return await message.edit(text)
+    except:
+        return await message.reply(text)
 import asyncio
 
 from . import *
