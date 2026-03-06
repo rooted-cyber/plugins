@@ -52,7 +52,7 @@ async def tts_handler(client: Client, message: Message):
         
         await client.send_voice(
             chat_id=message.chat_id, 
-            voice="tts.ogg"
+            voice="tts.ogg",
             caption=f"🗣️ **TTS Generated:** `{lang}`",
         )
         await status_msg.delete()
