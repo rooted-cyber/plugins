@@ -50,9 +50,9 @@ async def tts_handler(client: Client, message: Message):
         tts = gTTS(text=text, lang=lang, slow=False)
         tts.save(temp_audio)
         
-        await client.send_voice(
+        await client.send_audio(
             chat_id=message.chat_id, 
-            voice=temp_audio,
+            audio=temp_audio,
             caption=f"🗣️ **TTS Generated:** `{lang}`",
         )
         await status_msg.delete()
