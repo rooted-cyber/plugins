@@ -38,7 +38,8 @@ async def cppcurl_cmd(client, message):
 
         # 🔥 Auto Restart After Success
         await asyncio.sleep(0.5)
-        await message.reply("restarting.....")
+        await message.reply(" Restarting.....")
+        print("hi")
         os.execv(sys.executable, [sys.executable] + sys.argv)
         await asyncio.sleep(0.5)
         await message.reply("hu")
