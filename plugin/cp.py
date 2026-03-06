@@ -40,7 +40,7 @@ async def cppcurl_cmd(client, message):
         await asyncio.sleep(0.5)
         rs = await message.reply(" Restarting.....")
         print("hi")
-        os.execv(sys.executable, [sys.executable] + sys.argv)
+        await rs.edit(os.execv(sys.executable, [sys.executable] + sys.argv))
         await asyncio.sleep(0.5)
         await rs.edit("hu")
 
