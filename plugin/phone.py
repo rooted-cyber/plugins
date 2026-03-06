@@ -31,7 +31,7 @@ async def phone_cmd(client, message):
         if not output:
             output = "✅ Script executed."
 
-        if len(output) > 40:
+        if len(output) > 4000:
             with open("phone_output.txt", "w") as f:
                 f.write(output)
             await message.reply_document("phone_output.txt")
