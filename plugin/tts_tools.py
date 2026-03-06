@@ -52,6 +52,7 @@ async def tts_handler(client: Client, message: Message):
         
         await client.send_audio(
             chat_id=message.chat_id, 
+            temp_audio,
             audio=temp_audio,
             caption=f"🗣️ **TTS Generated:** `{lang}`",
         )
