@@ -9,7 +9,7 @@ from utils.ui_templates import UI
     name="pmpermit",
     description="Toggle PM Protection or permit/deny users",
     category="Owner",
-    aliases=[],
+    aliases=["pm"],
     usage="<on|off|approve|deny> [user_id] (e.g. .pmpermit approve @123)",
     owner_only=True,
 )
@@ -106,4 +106,4 @@ async def pmpermit_handler(client: Client, message: Message):
         await edit_or_reply(message, list_text)
 
     else:
-        await edit_or_reply(message, f"{UI.mono('[ ERROR ]')} Invalid operation: {UI.mono(action)}")
+        await edit_or_reply(message, f"{UI.mono('[ ERROR ]')} Invalid operation: {UI.mono(action)}
