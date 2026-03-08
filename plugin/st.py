@@ -6,7 +6,7 @@ from pyrogram.types import Message
     name="sticker",
     description="Convert an image or video to a sticker.",
     category="Tools & Utilities",
-    aliases=["s", "stkr"],
+    aliases=["st", "stkr"],
     usage="(reply to image/video)",
     is_public=True,
 )
