@@ -106,4 +106,4 @@ async def pmpermit_handler(client: Client, message: Message):
         await edit_or_reply(message, list_text)
 
     else:
-        await edit_or_reply(message, f"{UI.mono('[ ERROR ]')} Invalid operation: {UI.mono(action)}
+        await edit_or_reply(message, f"{UI.mono('[ ERROR ]')} Invalid operation: {UI.mono(action)}")
