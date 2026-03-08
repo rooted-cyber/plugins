@@ -12,9 +12,8 @@ from pyrogram.types import Message
     is_public=True,
 )
 async def sticker_handler(client: Client, message: Message):
-    """Sticker creation plugin."""
 
-    reply = message.reply_to_message
+    reply = await message.get_reply_message()
 
     if not reply and not message.media:
         return await edit_or_reply(
@@ -22,24 +21,22 @@ async def sticker_handler(client: Client, message: Message):
             f"{UI.mono('[ ERROR ]')} Reply to an image/video."
         )
 
-    status_msg = await edit_or_reply(
+    status = await edit_or_reply(
         message,
         f"{UI.mono('[ BUSY ]')} Converting to sticker..."
     )
 
     target = reply if reply else message
 
-    # download media
     file_path = await client.download_media(target)
 
     if not file_path:
-        return await status_msg.edit("❌ Failed to download media.")
+        return await status.edit("❌ Failed to download media.")
 
-    # send sticker
     await client.send_sticker(
         message.chat.id,
         file_path,
         reply_to_message_id=message.id
     )
 
-    await status_msg.delete()
+    await status.delete()
