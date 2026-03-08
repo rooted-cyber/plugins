@@ -1,3 +1,4 @@
+from . import *
 import base64
 from pyrogram import Client
 from pyrogram.types import Message
