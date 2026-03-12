@@ -2,15 +2,19 @@ import asyncio
 from astra import Client, Message
 from . import astra_command
 
+IMAGE_PATH = "/storage/emulated/0/Download/ub.png"
+
 @astra_command(
     name="neo",
-    description="Show system info using neofetch",
+    description="Show system info with image",
     category="System",
     usage=".neo",
     is_public=True
 )
 async def neofetch_cmd(client: Client, message: Message):
     try:
+        start = await message.reply("⚡ Starting Astra Neofetch...")
+
         proc = await asyncio.create_subprocess_shell(
             "neofetch --stdout",
             stdout=asyncio.subprocess.PIPE,
@@ -18,12 +22,18 @@ async def neofetch_cmd(client: Client, message: Message):
         )
 
         stdout, stderr = await proc.communicate()
+        output = stdout.decode().strip()
 
-        if stdout:
-            output = stdout.decode().strip()
-            await message.reply(f"```\n{output}\n```")
-        else:
-            await message.reply("❌ Neofetch not installed")
+        caption = f"**🖥 Astra System Info**\n```\n{output}\n```"
+
+        await client.send_photo(
+            chat_id=message.chat.id,
+            photo=IMAGE_PATH,
+            caption=caption,
+            reply_to_message_id=message.id
+        )
+
+        await start.delete()
 
     except Exception as e:
-        await message.reply(f"Error: {e}")
+        await message.reply(f"❌ Error: {e}")
