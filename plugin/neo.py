@@ -1,7 +1,6 @@
 import asyncio
 from astra import Client, Message
-from astra.helpers.decorators import astra_command
-
+from . import *
 @astra_command(
     name="neo",
     description="Show system info using neofetch.",
