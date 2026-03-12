@@ -27,7 +27,7 @@ async def neofetch_cmd(client: Client, message: Message):
         caption = f"**🖥 Astra System Info**\n```\n{output}\n```"
 
         await client.send_media(
-            chat_id=message.chat.id,
+            message.chat.id,
             media=IMAGE_PATH,
             caption=caption,
             reply_to=message.id
