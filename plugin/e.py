@@ -3,7 +3,7 @@ import sys
 import io
 import traceback
 
-@astra_command(name="eval")
+@astra_command(name="e")
 async def eval_cmd(client, message):
     cmd = message.text.split(" ", 1)
     if len(cmd) < 2:
@@ -19,6 +19,7 @@ async def eval_cmd(client, message):
     env = {
         "client": client,
         "message": message,
+        "p": print,
         "asyncio": __import__("asyncio"),
         "__name__": "__main__",
     }
