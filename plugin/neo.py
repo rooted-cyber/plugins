@@ -1,11 +1,12 @@
 import asyncio
 from astra import Client, Message
-from . import *
+from . import astra_command
+
 @astra_command(
     name="neo",
-    description="Show system info using neofetch.",
+    description="Show system info using neofetch",
     category="System",
-    usage=".neofetch",
+    usage=".neo",
     is_public=True
 )
 async def neofetch_cmd(client: Client, message: Message):
@@ -15,13 +16,14 @@ async def neofetch_cmd(client: Client, message: Message):
             stdout=asyncio.subprocess.PIPE,
             stderr=asyncio.subprocess.PIPE
         )
+
         stdout, stderr = await proc.communicate()
 
         if stdout:
             output = stdout.decode().strip()
-            await message.edit(f"```\n{output}\n```")
+            await message.reply(f"```\n{output}\n```")
         else:
-            await message.edit("❌ Neofetch not installed.")
+            await message.reply("❌ Neofetch not installed")
 
     except Exception as e:
-        await message.edit(f"Error: {e}")
+        await message.reply(f"Error: {e}")
