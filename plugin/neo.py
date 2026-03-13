@@ -25,7 +25,7 @@ def uptime():
 # ---------------- ALIVE ---------------- #
 
 @astra_command(
-    name="al,
+    name="al",
     description="Check bot status",
     category="System",
     usage=".alive",
