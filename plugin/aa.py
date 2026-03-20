@@ -1,3 +1,4 @@
+import asyncio
 import google.generativeai as genai
 from . import *
 
@@ -5,7 +6,7 @@ API_KEY = "AIzaSyB_qKhQviCuH5qxKUvhP6fc8b9rrPRE6yc"
 
 genai.configure(api_key=API_KEY)
 
-model = genai.GenerativeModel("gemini-pro")
+model = genai.GenerativeModel("gemini-1.5-flash")
 
 @astra_command("aa")
 async def ai_cmd(client, message):
@@ -17,11 +18,18 @@ async def ai_cmd(client, message):
     query = text[1]
 
     try:
-        import asyncio
+        # thread me run (important)
+        response = await asyncio.to_thread(
+            model.generate_content,
+            query
+        )
 
-        response = await asyncio.to_thread(model.generate_content, query)
-        #response = model.generate_content(query)
-        reply = response.text
+        # safe response extract
+        reply = getattr(response, "text", None)
+
+        if not reply:
+            reply = "No response from AI"
+
     except Exception as e:
         reply = f"Error: {e}"
 
