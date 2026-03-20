@@ -1,12 +1,11 @@
 import asyncio
 import google.generativeai as genai
 from . import *
-
-API_KEY = "AIzaSyB_qKhQviCuH5qxKUvhP6fc8b9rrPRE6yc"
-
+import os
+API_KEY = os.getenv("API_KEY")
 genai.configure(api_key=API_KEY)
 
-model = genai.GenerativeModel("gemini-2.0-flash")
+model = genai.GenerativeModel("gemini-1.5-flash")
 
 @astra_command("aa")
 async def ai_cmd(client, message):
