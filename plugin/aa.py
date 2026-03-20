@@ -7,7 +7,7 @@ genai.configure(api_key=API_KEY)
 
 model = genai.GenerativeModel("gemini-pro")
 
-@astra_command("ai")
+@astra_command("aa")
 async def ai_cmd(client, message):
     text = message.text.split(maxsplit=1)
 
@@ -17,6 +17,9 @@ async def ai_cmd(client, message):
     query = text[1]
 
     try:
+        import asyncio
+
+        response = await asyncio.to_thread(model.generate_content, query)
         response = model.generate_content(query)
         reply = response.text
     except Exception as e:
