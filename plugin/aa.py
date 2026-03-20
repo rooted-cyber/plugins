@@ -6,7 +6,7 @@ API_KEY = "AIzaSyB_qKhQviCuH5qxKUvhP6fc8b9rrPRE6yc"
 
 genai.configure(api_key=API_KEY)
 
-model = genai.GenerativeModel("gemini-1.5-flash")
+model = genai.GenerativeModel("gemini-2.0-flash")
 
 @astra_command("aa")
 async def ai_cmd(client, message):
