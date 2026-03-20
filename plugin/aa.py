@@ -20,7 +20,7 @@ async def ai_cmd(client, message):
         import asyncio
 
         response = await asyncio.to_thread(model.generate_content, query)
-        response = model.generate_content(query)
+        #response = model.generate_content(query)
         reply = response.text
     except Exception as e:
         reply = f"Error: {e}"
