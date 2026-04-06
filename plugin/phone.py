@@ -1,7 +1,5 @@
 from . import *
 import asyncio
-import os
-import sys
 import re
 
 @astra_command(name="phone")
@@ -16,8 +14,7 @@ async def phone_cmd(client, message):
     )
 
     try:
-        ansi_escape = re.compile(r'\x1B\[[0-?]*[ -/]*[@-~]')
-        output = ansi_escape.sub('', output)
+        # Run process
         process = await asyncio.create_subprocess_shell(
             cmd,
             stdout=asyncio.subprocess.PIPE,
@@ -26,17 +23,25 @@ async def phone_cmd(client, message):
 
         stdout, stderr = await process.communicate()
 
-        output = stdout.decode().strip() + stderr.decode().strip()
+        # Decode output
+        output = (stdout.decode(errors="ignore") + stderr.decode(errors="ignore")).strip()
 
+        # Remove ANSI colors AFTER output is created
+        ansi_escape = re.compile(r'\x1B\[[0-?]*[ -/]*[@-~]')
+        output = ansi_escape.sub('', output)
+
+        # Empty output handle
         if not output:
             output = "✅ Script executed."
 
+        # Large output handle
         if len(output) > 40000:
-            with open("phone_output.txt", "w") as f:
+            file_name = "phone_output.txt"
+            with open(file_name, "w", encoding="utf-8") as f:
                 f.write(output)
-            await message.reply_document("phone_output.txt")
+            await message.reply_document(file_name)
         else:
             await msg.edit(f"**Output:**\n`{output}`")
 
     except Exception as e:
-        await msg.edit(f"❌ Error:\n`{e}`")
+        await msg.edit(f"❌ Error:\n`{str(e)}`")
