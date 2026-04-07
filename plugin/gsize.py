@@ -20,6 +20,7 @@ def get_size(folder_id):
 
     for f in files:
         if f["mimeType"] == "application/vnd.google-apps.folder":
+            size = get_size(f["id"])
             total += get_size(f["id"])
         else:
             total += int(f.get("size", 0))
@@ -34,7 +35,8 @@ async def gsize_cmd(client, message):
         total = get_size("root")
         gb = total / (1024**3)
 
-        await msg.edit(f"💾 Total Drive Size: {gb:.2f} GB")
+        await msg.edit(f"📁 {f['name']} → {size/1024**3:.2f} GB")
+        await msg.reply(f"💾 Total Drive Size: {gb:.2f} GB")
 
     except Exception as e:
         await msg.edit(f"❌ Error:\n`{e}`")
