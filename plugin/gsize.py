@@ -1,7 +1,7 @@
 from . import *
 import requests
 
-ACCESS_TOKEN = "PASTE_YOUR_TOKEN_HERE"
+ACCESS_TOKEN = "ya29.a0Aa7MYiok_dPG2fyYQRzyE3PCy92LpsGG-wMn8vQSNBFiT3F_WdK_1TkWGjPi8ZH1DCwSGb6kouuJCF57m9Du1mW-9Ozjj1z8JLMl0bGjh_jWcYGPMoOl-KKJQjDc_j3C-ihEreTdxQ7-IF657mbyqVzknOfTUX67zsd4YSCIr7gmMl4wz-T2VwAEkaBR_utI1NHWWWMaCgYKAcASARUSFQHGX2MiJTkBfDy6fBodcb0TTKLePA0206"
 
 def get_files(folder_id):
     url = "https://www.googleapis.com/drive/v3/files"
