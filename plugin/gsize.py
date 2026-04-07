@@ -6,14 +6,36 @@ ACCESS_TOKEN = "ya29.a0Aa7MYiok_dPG2fyYQRzyE3PCy92LpsGG-wMn8vQSNBFiT3F_WdK_1TkWG
 
 def get_files(folder_id):
     url = "https://www.googleapis.com/drive/v3/files"
-    params = {
-        "q": f"'{folder_id}' in parents",
-        "fields": "files(id,name,mimeType,size)"
-    }
     headers = {"Authorization": f"Bearer {ACCESS_TOKEN}"}
+    
+    files = []
+    page_token = None
 
-    res = requests.get(url, params=params, headers=headers)
-    return res.json().get("files", [])
+    while True:
+        params = {
+            "q": f"'{folder_id}' in parents and trashed=false",
+            "fields": "nextPageToken, files(id,name,mimeType,size)",
+            "pageSize": 1000
+        }
+
+        if page_token:
+            params["pageToken"] = page_token
+
+        res = requests.get(url, params=params, headers=headers)
+        data = res.json()
+
+        # ❗ Debug error check
+        if "error" in data:
+            print(data)
+            return []
+
+        files.extend(data.get("files", []))
+        page_token = data.get("nextPageToken")
+
+        if not page_token:
+            break
+
+    return files
 
 def get_size(folder_id, level=0):
     total = 0
@@ -41,7 +63,7 @@ async def gsize_cmd(client, message):
 
         text = f"💾 Total Drive Size: {gb:.2f} GB\n\n"
         text += "📊 Folder Breakdown:\n\n"
-        text += details[:4000]  # Telegram limit
+        text += details[:4000]
 
         await msg.edit(text)
 
