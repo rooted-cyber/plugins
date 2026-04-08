@@ -1,3 +1,4 @@
+#api link: https://accounts.google.com/o/oauth2/v2/auth?scope=https://www.googleapis.com/auth/drive.readonly&response_type=token&client_id=407408718192.apps.googleusercontent.com&redirect_uri=https://developers.google.com/oauthplayground
 from . import *
 import requests
 
