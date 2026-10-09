@@ -1,5 +1,4 @@
-# Object file
-*.o
-
+# Object fil
+config.json
 # Ada Library Information
 *.ali
